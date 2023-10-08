@@ -78,7 +78,7 @@ class DoubanWeb(object):
             }
         },
         "collect": {
-            "list": "//div[@class='grid-view']/div[@class='item']",
+            "list": "//div[@class='grid-view']/div[@class='item comment-item']",
             "dates": "//div[@class='info']//span[@class='date']/text()",
             "item": {
                 "title": "./div[@class='info']/ul/li[@class='title']/a/em/text()",
@@ -87,7 +87,7 @@ class DoubanWeb(object):
             }
         },
         "wish": {
-            "list": "//div[@class='grid-view']/div[@class='item']",
+            "list": "//div[@class='grid-view']/div[@class='item comment-item']",
             "item": {
                 "title": "./div[@class='info']/ul/li[@class='title']/a/em/text()",
                 "cover": "./div[@class='pic']/a/img/@src",
@@ -96,7 +96,7 @@ class DoubanWeb(object):
             }
         },
         "do": {
-            "list": "//div[@class='grid-view']/div[@class='item']",
+            "list": "//div[@class='grid-view']/div[@class='item comment-item']",
             "item": {
                 "title": "./div[@class='info']/ul/li[@class='title']/a/em/text()",
                 "cover": "./div[@class='pic']/a/img/@src",
@@ -168,6 +168,8 @@ class DoubanWeb(object):
         xpaths = cls._webparsers.get(url)
         if not xpaths:
             return None
+        # 使用etree来分析html，获取class为grid-view的div下的所有class为item的div
+        item_list = etree.HTML(html).xpath("//div[@class='grid-view']/div[@class='item']")
         items = etree.HTML(html).xpath(xpaths.get("list"))
         if not items:
             return None
